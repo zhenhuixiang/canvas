@@ -15,7 +15,12 @@
 	<canvas id="canvas" height="600px" width="1000px" style="border:3px solid blue;background:#f88;display:block;margin:100px auto 0 100px" onmousemove="cnvs_getCoordinates(event)" onmouseout="cnvs_clearCoordinates()"></canvas>
 	<div id="xycoordinates" style="margin:0 0 0 100px"></div>
 	<script type="text/javascript">
-
+		var headX = 15,headY = 15,headL = 10;//snakes 单个块体的边长
+		var nodirection;
+		var direction;
+		var c = document.getElementById('canvas');
+		var head = c.getContext("2d");  //头部
+		head.fillstyle = "#000";
 		function cnvs_getCoordinates(e)
 		{
 		x=e.clientX - 103;
@@ -29,59 +34,113 @@
 		}
 		//获取鼠标坐标
 
-	  
-		
 		function draw(){
-
-			var s;//蛇的身体 数组snake
-			var  x,y;
-			s = {
-				var X:x,
-				var Y:y
+			var s = new Array();//蛇的身体 数组snake
+			var food = {
+				x:0,
+				y:0
 			};
-			document.onkeydown = function(event){
-					var e = event || window.event || arguments.callee.caller.arguments[0];
-					if (e && e.keyCode == 38) {
-						s.unshift({
-							X:s[0].X,
-							Y:s[0].Y + headL
-						});					
-					}
-					if (e && e.keyCode == 39) {
-						s.unshift({
-							X:s[0].X + headL,
-							Y:s[0].Y
-						});	
-						
-					}
-					if (e && e.keyCode == 40) {
-						s.unshift({
-							X:s[0].X,
-							Y:s[0].Y - headL
-						});	
-					}
-					if (e && e.keyCode == 37) {
-						s.unshift({
-							X:s[0].X - headL,
-							Y:s[0].Y
-						});	
-					}
-					rect(s[0].X,s[0].X,headL);
-				} //键盘事件 上下左右
+			var  x,y,l=10;
+			s.push({
+				x:15,
+				y:15
+			});
+
+			function drawFood(){
+				var mrx = Math.random()*100;
+				var mry = Math.random()*60;
+				food = {
+					x:Math.floor(mrx)*l+l/2,
+					y:Math.floor(mry)*l+l/2
+				};
+				var foodResult = s.every(function(item,index,array){
+						return item.x != food.x && item.y != food.y;
+					});
+				if (foodResult){
+					head.beginPath();
+					head.arc(food.x,food.y,3,0,Math.PI*2,true);// 画食物
+					head.stroke();
+				}else{
+					drawFood(); //递归
+				}
+			}//画食物
+			drawFood();
+
+			
+			function clearRect(x,y,a){
+			var b=a/2;
+			head.clearRect (x-b, y-b, a, a);
+			}//清楚尾部
 
 			function rect(x,y,a){
 			var b=a/2;
 			head.fillRect (x-b, y-b, a, a);
-			}         //画一个单个块体
-			var headX = 20,headY = 20,headL = 10;//snakes 单个块体的边长
-			var c = document.getElementById('canvas');
-			var cxt = c.getContext("2d");
-			cxt.fillstyle = "#000";
-			var head = c.getContext("2d");  //头部
-			head.fillstyle = "#000";
-			rect(headX,headY,headL);	
+			}//画一个单个块体
+
+			rect(headX,headY,headL);//画出初始块体
+
+			document.onkeydown = function (event){
+				var e = event || window.event || arguments.callee.caller.arguments[0];
+				
+				if (e && e.keyCode == nodirection) { return 0 ;}// 如果输入相反方向则直接跳出
+				if (e && e.keyCode == 38) {
+					s.unshift({
+						x:s[0].x,
+						y:s[0].y - l
+					});	
+					direction = "38";
+					nodirection = "40";				
+				}
+				if (e && e.keyCode == 39) {
+					s.unshift({
+						x:s[0].x + l,
+						y:s[0].y
+					});	
+					direction = "39";
+					nodirection = "37";
+				}
+				if (e && e.keyCode == 40) {
+					s.unshift({
+						x:s[0].x,
+						y:s[0].y + l
+					});	
+					direction = "40";
+					nodirection = "38";
+				}
+				if (e && e.keyCode == 37) {
+					s.unshift({
+						x:s[0].x - l,
+						y:s[0].y
+					});	
+					direction = "37";
+					nodirection = "39";
+				}
+				rect(s[0].x,s[0].y,l);
+				if (s.length > 5 && (e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40) ){
+					if (s[0].x == food.x && s[0].y ==food.y){
+						drawFood();
+					}
+					else{
+						clearRect(s[s.length - 1].x,s[s.length - 1].y,l);
+						s.pop();
+					}
+				}
+				for (var i = 1; i < s.length; i++) {
+					if(s[i].x ==s[0].x && s[i].y == s[0].y){
+						head.clearRect(0,0,1000,600);
+						alert("game over!");
+						draw();
+					}
+				}
+									
+				if (s[0].x<0 || s[0].x>1000 || s[0].y<0 ||s[0].y>600){
+					head.clearRect(0,0,1000,600);
+					alert("game over!");
+					draw();
+				}
+			} //键盘事件 上下左右
 		}
-		draw();
+		draw();//开始游戏
 	</script>
 </body>
 </html>
