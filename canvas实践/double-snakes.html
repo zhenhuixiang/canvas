@@ -71,6 +71,15 @@
 			});
 
 			function drawFood(){
+				if (s1.length > 200) {
+					alert("game over!  red win!");
+					end();
+				}
+				if (s2.length > 200) {
+					alert("game over!  blue win!");
+					end();
+				}
+				//一个单方面获胜条件 长度达到200
 				var mrx = Math.random()*50;
 				var mry = Math.random()*30;
 				food = {
