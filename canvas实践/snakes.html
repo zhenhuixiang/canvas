@@ -8,23 +8,27 @@
 			border: 0px;
 			margin: 0px;
 		}
+		body{
+			background: #eee;
+		}
 	</style>
 </head>
 <body>
 	
-	<canvas id="canvas" height="600px" width="1000px" style="border:3px solid blue;background:#f88;display:block;margin:100px auto 0 100px" onmousemove="cnvs_getCoordinates(event)" onmouseout="cnvs_clearCoordinates()"></canvas>
+	<canvas id="canvas" height="300px" width="500px" style="border:3px solid blue;background:#fff;display:block;margin:0px auto 0 100px" onmousemove="cnvs_getCoordinates(event)" onmouseout="cnvs_clearCoordinates()"></canvas>
 	<div id="xycoordinates" style="margin:0 0 0 100px"></div>
 	<script type="text/javascript">
 		var headX = 15,headY = 15,headL = 10;//snakes 单个块体的边长
 		var nodirection;
 		var direction;
+		var t1; //变量写在这里就可以保证 被清除了
 		var c = document.getElementById('canvas');
 		var head = c.getContext("2d");  //头部
 		head.fillstyle = "#000";
 		function cnvs_getCoordinates(e)
 		{
 		x=e.clientX - 103;
-		y=e.clientY - 103;
+		y=e.clientY - 3;
 		document.getElementById("xycoordinates").innerHTML="Coordinates: (" + x + "," + y + ")";
 		}
 		 
@@ -35,6 +39,9 @@
 		//获取鼠标坐标
 
 		function draw(){
+			window.setTimeout(function(){
+				window.clearInterval(t1);
+			},50); 
 			var s = new Array();//蛇的身体 数组snake
 			var food = {
 				x:0,
@@ -47,17 +54,22 @@
 			});
 
 			function drawFood(){
-				var mrx = Math.random()*100;
-				var mry = Math.random()*60;
+				var mrx = Math.random()*50;
+				var mry = Math.random()*30;
 				food = {
 					x:Math.floor(mrx)*l+l/2,
 					y:Math.floor(mry)*l+l/2
 				};
-				var foodResult = s.every(function(item,index,array){
-						return item.x != food.x && item.y != food.y;
-					});
+				var foodResult = true;
+				for (var i = 0; i < s.length ; i++) {
+					if ( s[i].x == food.x && s[i].y == food.y) {
+						foodResult = false;
+						break;
+					}
+				}
 				if (foodResult){
 					head.beginPath();
+					head.strokeStyle = 'rgba(255,0,0,1)';
 					head.arc(food.x,food.y,3,0,Math.PI*2,true);// 画食物
 					head.stroke();
 				}else{
@@ -80,64 +92,76 @@
 			rect(headX,headY,headL);//画出初始块体
 
 			document.onkeydown = function (event){
-				var e = event || window.event || arguments.callee.caller.arguments[0];
 				
-				if (e && e.keyCode == nodirection) { return 0 ;}// 如果输入相反方向则直接跳出
-				if (e && e.keyCode == 38) {
-					s.unshift({
-						x:s[0].x,
-						y:s[0].y - l
-					});	
-					direction = "38";
-					nodirection = "40";				
-				}
-				if (e && e.keyCode == 39) {
-					s.unshift({
-						x:s[0].x + l,
-						y:s[0].y
-					});	
-					direction = "39";
-					nodirection = "37";
-				}
-				if (e && e.keyCode == 40) {
-					s.unshift({
-						x:s[0].x,
-						y:s[0].y + l
-					});	
-					direction = "40";
-					nodirection = "38";
-				}
-				if (e && e.keyCode == 37) {
-					s.unshift({
-						x:s[0].x - l,
-						y:s[0].y
-					});	
-					direction = "37";
-					nodirection = "39";
-				}
-				rect(s[0].x,s[0].y,l);
-				if (s.length > 5 && (e.keyCode == 37 || e.keyCode == 38 || e.keyCode == 39 || e.keyCode == 40) ){
-					if (s[0].x == food.x && s[0].y ==food.y){
-						drawFood();
+				var e = event || window.event || arguments.callee.caller.arguments[0];
+				if ((e && e.keyCode == nodirection )|| ( e.keyCode != 38 && e.keyCode != 39 && e.keyCode != 40 && e.keyCode != 37)) { return 0 ;}// 如果输入相反方向则直接跳出
+				window.clearInterval(t1);
+				function go()
+				{	
+					if (e && e.keyCode == 38) {
+						s.unshift({
+							x:s[0].x,
+							y:s[0].y - l
+						});	
+						direction = "38";
+						nodirection = "40";				
 					}
-					else{
-						clearRect(s[s.length - 1].x,s[s.length - 1].y,l);
-						s.pop();
+					if (e && e.keyCode == 39) {
+						s.unshift({
+							x:s[0].x + l,
+							y:s[0].y
+						});	
+						direction = "39";
+						nodirection = "37";
 					}
-				}
-				for (var i = 1; i < s.length; i++) {
-					if(s[i].x ==s[0].x && s[i].y == s[0].y){
-						head.clearRect(0,0,1000,600);
+					if (e && e.keyCode == 40) {
+						s.unshift({
+							x:s[0].x,
+							y:s[0].y + l
+						});	
+						direction = "40";
+						nodirection = "38";
+					}
+					if (e && e.keyCode == 37) {
+						s.unshift({
+							x:s[0].x - l,
+							y:s[0].y
+						});	
+						direction = "37";
+						nodirection = "39";
+					}
+					rect(s[0].x,s[0].y,l);
+					if (s.length > 5){
+						if (s[0].x == food.x && s[0].y ==food.y){
+							drawFood();
+						}
+						else{
+							clearRect(s[s.length - 1].x,s[s.length - 1].y,l);
+							s.pop();
+						}
+					}
+					for (var i = 1; i < s.length; i++) {
+						if(s[i].x ==s[0].x && s[i].y == s[0].y){
+							head.clearRect(0,0,500,300);
+							alert("game over!");
+							draw();
+							nodirection = null;
+							window.clearInterval(t1);
+						}
+					}
+										
+					if (s[0].x<0 || s[0].x>500 || s[0].y<0 ||s[0].y>300){
+						head.clearRect(0,0,500,300);
 						alert("game over!");
 						draw();
+						nodirection = null;
+						
 					}
 				}
-									
-				if (s[0].x<0 || s[0].x>1000 || s[0].y<0 ||s[0].y>600){
-					head.clearRect(0,0,1000,600);
-					alert("game over!");
-					draw();
-				}
+				go();
+				t1 = window.setInterval(go,250-s.length);//加速功能
+
+
 			} //键盘事件 上下左右
 		}
 		draw();//开始游戏
