@@ -104,12 +104,12 @@
 			border-top: 3px solid #000;
 			height: 200px;
 			text-align: center;
-			display: none;
 		}
 		#rank_list{
 			width: 100px;
 			margin-left: 20px;
-			margin-top: 10px;
+			margin-top: 2px;
+			font-size: 12px;
 		}
 		#ad{
 			height: 20px;
@@ -125,7 +125,7 @@
 	</style>
 </head>
 <body>
-	<h1 class="title">贪吃蛇争霸赛</h1>
+	<h1 class="title">CUG贪吃蛇争霸赛</h1>
 	<div class="canvas_wrapper">
 		<div id="score">得分：<span id="score_num">0</span></div>
 		<canvas id="arcade" height="450px" width="280px" style="border:3px solid #000;border-radius:10px;background:#fff;display:block;margin:3px auto 3px auto;" onmousemove="cnvs_getCoordinates(event)" onmouseout="cnvs_clearCoordinates()"></canvas>
@@ -143,7 +143,7 @@
 		</div>
 		<div id="rank">
 			<h5 id="rank_title"><a href="#">排行榜</a></h5>
-			<div id="rank_content">
+			<div id="rank_content" style="display:none;">
 				<div id="rank_list">
 					<ol>
 						<li></li>
