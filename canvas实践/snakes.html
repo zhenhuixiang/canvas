@@ -354,7 +354,7 @@
 						direction = "37";
 						nodirection = "39";
 					}
-					rect(s[0].x,s[0].y,l);
+					
 					if (s.length > 5){
 						if (s[0].x == food.x && s[0].y ==food.y){
 							drawFood();
@@ -368,20 +368,28 @@
 					for (var i = 1; i < s.length; i++) {
 						if(s[i].x ==s[0].x && s[i].y == s[0].y){
 							head.clearRect(0,0,250,200);
-							alert("game over! 你的得分是："+(s.length-5));
+							if(s.length >= 5){
+								alert("game over! 你的得分是："+(s.length-5));
+							}else{
+								alert("game over! 你的得分是："+0);
+							}
 							draw();
 							nodirection = null;
 							window.clearInterval(t1);
 						}
 					}
-										
+								
 					if (s[0].x<0 || s[0].x>250 || s[0].y<0 ||s[0].y>200){
 						head.clearRect(0,0,250,200);
-						alert("game over! 你的得分是："+(s.length-5));
+						if(s.length >= 5){
+							alert("game over! 你的得分是："+(s.length-5));
+						}else{
+							alert("game over! 你的得分是："+0);
+						}
 						draw();
 						nodirection = null;
-						
 					}
+					rect(s[0].x,s[0].y,l);
 				}
 				go();
 				t1 = window.setInterval(go,300-s.length);//加速功能
@@ -428,7 +436,6 @@
 							direction = "37";
 							nodirection = "39";
 						}
-						rect(s[0].x,s[0].y,l);
 						if (s.length > 5){
 							if (s[0].x == food.x && s[0].y ==food.y){
 								drawFood();
@@ -442,22 +449,27 @@
 						for (var i = 1; i < s.length; i++) {
 							if(s[i].x ==s[0].x && s[i].y == s[0].y){
 								head.clearRect(0,0,250,200);
-								alert("game over! 你的得分是："+(s.length-5));
+								if(s.length >= 5){
+									alert("game over! 你的得分是："+(s.length-5));
+								}else{
+									alert("game over! 你的得分是："+0);
+								}
 								draw();
 								nodirection = null;
 								window.clearInterval(t1);
-
 							}
-						}
-											
+						}					
 						if (s[0].x<0 || s[0].x>250 || s[0].y<0 ||s[0].y>200){
 							head.clearRect(0,0,250,200);
-							alert("game over! 你的得分是："+(s.length-5));
+							if(s.length >= 5){
+								alert("game over! 你的得分是："+(s.length-5));
+							}else{
+								alert("game over! 你的得分是："+0);
+							}
 							draw();
 							nodirection = null;
-
-							
 						}
+						rect(s[0].x,s[0].y,l);
 					}
 					go();
 					t1 = window.setInterval(go,300-s.length);//加速功能
