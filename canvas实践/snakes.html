@@ -17,6 +17,11 @@
 		body{
 			background: #eee;
 		}
+		.title{
+			margin-top: 5px;
+			margin-bottom: 3px;
+			font-size: 28px;
+		}
 		.title,#canvas,#xycoordinates{
 			text-align: center;
 		}
@@ -89,7 +94,8 @@
 			top:219px;
 			left: 22px;
 			font-size: 12px;
-			border: 3px solid #000;
+			border-left: 3px solid #000;
+			border-right: 3px solid #000;
 			transition: all 0.5s;
 		    -moz-transition: all 0.5s;  /* Firefox 4 */
 		    -webkit-transition: all 0.5s;   /* Safari 和 Chrome */
@@ -99,10 +105,14 @@
 			display: block;
 			margin:0 auto;
 			text-align: center;
+			border-top: 3px solid #000;
+			border-bottom: 3px solid #000;
+			height: 20px;
+			line-height: 20px;
 		}
 		#rank_content{
-			border-top: 3px solid #000;
-			height: 200px;
+
+			height: 206px;
 			text-align: center;
 		}
 		#rank_list{
@@ -118,9 +128,40 @@
 			bottom: 0px;
 		}
 		.footer{
-			margin-top: 15px;
+			margin-top: 10px;
 			font-size:12px; 
 			text-align: center;
+		}
+		#login{
+			background: #fff;
+			height: 440px;
+			width: 265px;
+			position: absolute;
+			top: 3px;
+			left: 15px;
+			display: none;
+		}
+		#logo{
+			width: 60px;
+			height: 60px;
+			margin: 45px auto 60px auto;
+			background: #5598ff;
+		}
+		.login_input{
+			border: 1px solid #000;
+			height: 30px;
+			line-height: 30px;
+			width: 248px;
+		}
+		.login_input_submit{
+			border: 1px solid #000;
+			height: 30px;
+			line-height: 30px;
+			width: 250px;
+		}
+		.input_wrapper{
+			width: 250px;
+			margin: 10px auto;
 		}
 	</style>
 </head>
@@ -128,11 +169,11 @@
 	<h1 class="title">CUG贪吃蛇争霸赛</h1>
 	<div class="canvas_wrapper">
 		<div id="score">得分：<span id="score_num">0</span></div>
-		<canvas id="arcade" height="450px" width="280px" style="border:3px solid #000;border-radius:10px;background:#fff;display:block;margin:3px auto 3px auto;" onmousemove="cnvs_getCoordinates(event)" onmouseout="cnvs_clearCoordinates()"></canvas>
+		<canvas id="arcade" height="450px" width="280px" style="border:3px solid #000;border-radius:10px;background:#fff;display:block;margin:3px auto 3px auto;"></canvas>
 		<script type="text/javascript">
 			//可以画界面，但是现在感觉没啥需要画的
 		</script>
-		<canvas id="canvas" height="200px" width="250px" style="border:3px solid #000;background:#fff;display:block;margin:0px auto 0 auto;" onmousemove="cnvs_getCoordinates(event)" onmouseout="cnvs_clearCoordinates()"></canvas>
+		<canvas id="canvas" height="200px" width="250px" style="border:3px solid #000;background:#fff;display:block;margin:0px auto 0 auto;"></canvas>
 		<div id="control">
 			<div class="control_block up" id="up"></div>
 			<div class="clearfloat">
@@ -161,9 +202,23 @@
 				<div id="ad">这是一个广告位，为赞助商提供</div>	
 			</div>
 		</div>
+		<div id="login">
+			<div id="logo">
+				logo
+			</div>
+			<form id="login_form" action="#" method="POST">
+				<div class="input_wrapper"><input name="name" class="login_input" id="user" type="text" size="25" placeholder="你的名字" value=""></div>
+				<div class="input_wrapper"><input name="qq" class="login_input" id="password" type="tel" size="25" placeholder="你的qq号" value=""></div>
+				<div class="input_wrapper"><input name="go" class="login_input_submit" type="submit" value="进入游戏" style="background:#5598ff;"></div>
+			</form>
+			<div style="font-size:12px; width:235px;margin:100px auto 0 auto">
+				<p>注意：这是一场比赛，请填入真实的信息，在获得奖励以后方便工作人员发放奖励，谢谢！</p>
+			</div>
+		</div>
 	</div>
-	<div class="footer">地大点石团队出品</div>
-	<div id="xycoordinates"></div>
+	<div class="footer"><a href="#">地大点石团队出品</a></div>
+	
+	<!-- <div id="xycoordinates"></div> -->
 	<script type="application/javascript" src="js/fastclick.js"></script> 
 	<script type="application/javascript">
 		window.addEventListener('load', function () {
@@ -188,7 +243,7 @@
 		var c = document.getElementById('canvas');
 		var head = c.getContext("2d");  //头部
 		head.fillstyle = "#000";
-		function cnvs_getCoordinates(e)
+		/*function cnvs_getCoordinates(e)
 		{
 		x=e.clientX;
 		y=e.clientY;
@@ -199,7 +254,7 @@
 		{
 		document.getElementById("xycoordinates").innerHTML="";
 		}
-		//获取鼠标坐标
+		//获取鼠标坐标*/
 		var score_num = document.getElementById("score_num");
 		var up = document.getElementById('up');
 		var right = document.getElementById('right');
