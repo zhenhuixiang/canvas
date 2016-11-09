@@ -139,7 +139,11 @@
 			position: absolute;
 			top: 3px;
 			left: 15px;
-			display: none;
+			transition: all 0.5s;
+		    -moz-transition: all 0.5s;  /* Firefox 4 */
+		    -webkit-transition: all 0.5s;   /* Safari 和 Chrome */
+		    -o-transition: all 0.5s;    /* Opera */
+
 		}
 		#logo{
 			width: 60px;
@@ -207,9 +211,9 @@
 				logo
 			</div>
 			<form id="login_form" action="#" method="POST">
-				<div class="input_wrapper"><input name="name" class="login_input" id="user" type="text" size="25" placeholder="你的名字" value=""></div>
-				<div class="input_wrapper"><input name="qq" class="login_input" id="password" type="tel" size="25" placeholder="你的qq号" value=""></div>
-				<div class="input_wrapper"><input name="go" class="login_input_submit" type="submit" value="进入游戏" style="background:#5598ff;"></div>
+				<div class="input_wrapper"><input name="name" class="login_input" id="name" type="text" size="25" placeholder="你的名字" value=""></div>
+				<div class="input_wrapper"><input name="qq" class="login_input" id="qq" type="tel" size="25" placeholder="你的qq号" value=""></div>
+				<div class="input_wrapper"><input name="go" class="login_input_submit" id="go" type="button" value="进入游戏" style="background:#5598ff;"></div>
 			</form>
 			<div style="font-size:12px; width:235px;margin:100px auto 0 auto">
 				<p>注意：这是一场比赛，请填入真实的信息，在获得奖励以后方便工作人员发放奖励，谢谢！</p>
@@ -220,7 +224,9 @@
 	
 	<!-- <div id="xycoordinates"></div> -->
 	<script type="application/javascript" src="js/fastclick.js"></script> 
-	<script type="application/javascript">
+	<script type="application/javascript">//-------------------------------------------------------------------------------------游戏非核心脚本
+		
+		var login = document.getElementById("login");
 		window.addEventListener('load', function () {
 			FastClick.attach(document.body);
 		}, false);
@@ -233,9 +239,21 @@
 				rc.style.display = "block";
 			}
 		};
+		document.getElementById("go").onclick = function(){
+			var name = document.getElementById("name").value;
+			var qq = document.getElementById("qq").value;
+			if ( qq != "" && name != "" ){
+				login.style.opacity = "0";
+				setTimeout("login.style.zIndex = '-1';",500);
+			}
+			else{
+				alert("请完成表单后开始游戏~");
+			}
+		}
 	</script> 
-	<script type="text/javascript">
+	<script type="text/javascript">//-------------------------------------------------------------------------------------游戏核心脚本
 	    var s;
+	    var score;
 		var headX = 15,headY = 15,headL = 10;//snakes 单个块体的边长
 		var nodirection;
 		var direction;
@@ -314,7 +332,16 @@
 			}//画一个单个块体
 
 			rect(headX,headY,headL);//画出初始块体
-			
+
+
+			function submit(){
+
+				//name
+				//qq
+				//score
+
+			}//提交分数
+
 			document.onkeydown = function (event){
 				
 				var e = event || window.event || arguments.callee.caller.arguments[0];
@@ -322,6 +349,11 @@
 				window.clearInterval(t1);
 				function go()
 				{	
+					if (s.length-5>0) {
+						score = s.length-5
+					} else{
+						score = 0;
+					}
 					if (e && e.keyCode == 38) {
 						s.unshift({
 							x:s[0].x,
@@ -368,11 +400,8 @@
 					for (var i = 1; i < s.length; i++) {
 						if(s[i].x ==s[0].x && s[i].y == s[0].y){
 							head.clearRect(0,0,250,200);
-							if(s.length >= 5){
-								alert("game over! 你的得分是："+(s.length-5));
-							}else{
-								alert("game over! 你的得分是："+0);
-							}
+							alert("game over! 你的得分是："+score);
+							submit();
 							draw();
 							nodirection = null;
 							window.clearInterval(t1);
@@ -381,11 +410,8 @@
 								
 					if (s[0].x<0 || s[0].x>250 || s[0].y<0 ||s[0].y>200){
 						head.clearRect(0,0,250,200);
-						if(s.length >= 5){
-							alert("game over! 你的得分是："+(s.length-5));
-						}else{
-							alert("game over! 你的得分是："+0);
-						}
+						alert("game over! 你的得分是："+score);
+						submit();
 						draw();
 						nodirection = null;
 					}
@@ -404,6 +430,11 @@
 					window.clearInterval(t1);
 					function go()
 					{	
+						if (s.length-5>0) {
+							score = s.length-5
+						} else{
+							score = 0;
+						}
 						if (e == 38) {
 							s.unshift({
 								x:s[0].x,
@@ -449,11 +480,8 @@
 						for (var i = 1; i < s.length; i++) {
 							if(s[i].x ==s[0].x && s[i].y == s[0].y){
 								head.clearRect(0,0,250,200);
-								if(s.length >= 5){
-									alert("game over! 你的得分是："+(s.length-5));
-								}else{
-									alert("game over! 你的得分是："+0);
-								}
+								alert("game over! 你的得分是："+score);
+								submit();
 								draw();
 								nodirection = null;
 								window.clearInterval(t1);
@@ -461,11 +489,8 @@
 						}					
 						if (s[0].x<0 || s[0].x>250 || s[0].y<0 ||s[0].y>200){
 							head.clearRect(0,0,250,200);
-							if(s.length >= 5){
-								alert("game over! 你的得分是："+(s.length-5));
-							}else{
-								alert("game over! 你的得分是："+0);
-							}
+							alert("game over! 你的得分是："+score);
+							submit();
 							draw();
 							nodirection = null;
 						}
