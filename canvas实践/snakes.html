@@ -1,524 +1,627 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	<title>snakes</title>
-	<style type="text/css">
-		*{
-			border: 0px;
-			margin: 0px;
-		}
-		a,a:hover,a:active,a:visited {
-		    color: #000;
-		    text-decoration: none;
-		}
-		body{
-			background: #eee;
-		}
-		.title{
-			margin-top: 5px;
-			margin-bottom: 3px;
-			font-size: 28px;
-		}
-		.title,#canvas,#xycoordinates{
-			text-align: center;
-		}
-		.canvas_wrapper{
-			width: 300px;
-			position: relative;
-			margin:0 auto; 
-		}
-		#score{
-			position: absolute;
-			top: 2px;
-			left: 125px;
-			text-align: center;
-			height: 14px;
-			line-height: 14px;
-			font-size: 10px;
-		}
-		#canvas{
-			position: absolute;
-			top: 16px;
-			left:22px;
-		}
-		#control{
-			width: 160px;
-			margin:0 auto; 
-			position: absolute;
-			top: 260px;
-			left: 70px;
-		}
-		.control_block{
-			text-align: center;
-			line-height: 50px;
-			background: #f44;
-			width: 50px;
-			height: 50px;
-		} 
-		
-		.clearfloat{
-			overflow:hidden;
-		}
-		.up,.down{
-			margin: 5px auto;
-		}
-		.down{
-			background: url(img/arrow_down.png);
-		}
-		.up{
-			background: url(img/arrow_up.png);
-		}
-		.left{
-			background: url(img/arrow_left.png);
-			float: left;
-		}
-		.right{
-			float: right;
-			background: url(img/arrow_right.png);
-		}
-		.up,.down,.left,.right{
-			-webkit-background-size: 50px 50px;
-			background-size: 50px 50px;
-		}
-		.control_block:active{
-			-webkit-background-size: 55px 55px;
-			background-size: 55px 55px;
-		}
-		#rank{
-			background: #fff;
-			width: 250px;
-			position: absolute;
-			top:219px;
-			left: 22px;
-			font-size: 12px;
-			border-left: 3px solid #000;
-			border-right: 3px solid #000;
-			transition: all 0.5s;
-		    -moz-transition: all 0.5s;  /* Firefox 4 */
-		    -webkit-transition: all 0.5s;   /* Safari 和 Chrome */
-		    -o-transition: all 0.5s;    /* Opera */
-		}
-		#rank h5{
-			display: block;
-			margin:0 auto;
-			text-align: center;
-			border-top: 3px solid #000;
-			border-bottom: 3px solid #000;
-			height: 20px;
-			line-height: 20px;
-		}
-		#rank_content{
-
-			height: 206px;
-			text-align: center;
-		}
-		#rank_list{
-			width: 100px;
-			margin-left: 20px;
-			margin-top: 2px;
-			font-size: 12px;
-		}
-		#ad{
-			height: 20px;
-			width: 250px;
-			position: absolute;
-			bottom: 0px;
-		}
-		.footer{
-			margin-top: 10px;
-			font-size:12px; 
-			text-align: center;
-		}
-		#login{
-			background: #fff;
-			height: 440px;
-			width: 265px;
-			position: absolute;
-			top: 3px;
-			left: 15px;
-			transition: all 0.5s;
-		    -moz-transition: all 0.5s;  /* Firefox 4 */
-		    -webkit-transition: all 0.5s;   /* Safari 和 Chrome */
-		    -o-transition: all 0.5s;    /* Opera */
-
-		}
-		#logo{
-			width: 60px;
-			height: 60px;
-			margin: 45px auto 60px auto;
-			background: #5598ff;
-		}
-		.login_input{
-			border: 1px solid #000;
-			height: 30px;
-			line-height: 30px;
-			width: 248px;
-		}
-		.login_input_submit{
-			border: 1px solid #000;
-			height: 30px;
-			line-height: 30px;
-			width: 250px;
-		}
-		.input_wrapper{
-			width: 250px;
-			margin: 10px auto;
-		}
-	</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>snakes</title>
+  <style type="text/css">
+  * {
+    border: 0px;
+    margin: 0px;
+  }
+  
+  a,
+  a:hover,
+  a:active,
+  a:visited {
+    color: #000;
+    text-decoration: none;
+  }
+  
+  body {
+    background: #eee;
+  }
+  
+  .title {
+    margin-top: 5px;
+    margin-bottom: 3px;
+    font-size: 28px;
+  }
+  
+  .title,
+  #canvas,
+  #xycoordinates {
+    text-align: center;
+  }
+  
+  .canvas_wrapper {
+    width: 300px;
+    position: relative;
+    margin: 0 auto;
+  }
+  
+  #score {
+    position: absolute;
+    top: 2px;
+    left: 125px;
+    text-align: center;
+    height: 14px;
+    line-height: 14px;
+    font-size: 10px;
+  }
+  
+  #canvas {
+    position: absolute;
+    top: 16px;
+    left: 22px;
+  }
+  
+  #control {
+    width: 160px;
+    margin: 0 auto;
+    position: absolute;
+    top: 260px;
+    left: 70px;
+  }
+  
+  .control_block {
+    text-align: center;
+    line-height: 50px;
+    background: #f44;
+    width: 50px;
+    height: 50px;
+  }
+  
+  .clearfloat {
+    overflow: hidden;
+  }
+  
+  .up,
+  .down {
+    margin: 5px auto;
+  }
+  
+  .down {
+    background: url(img/arrow_down.png);
+  }
+  
+  .up {
+    background: url(img/arrow_up.png);
+  }
+  
+  .left {
+    background: url(img/arrow_left.png);
+    float: left;
+  }
+  
+  .right {
+    float: right;
+    background: url(img/arrow_right.png);
+  }
+  
+  .up,
+  .down,
+  .left,
+  .right {
+    -webkit-background-size: 50px 50px;
+    background-size: 50px 50px;
+  }
+  
+  .control_block:active {
+    -webkit-background-size: 55px 55px;
+    background-size: 55px 55px;
+  }
+  
+  #rank {
+    background: #fff;
+    width: 250px;
+    position: absolute;
+    top: 219px;
+    left: 22px;
+    font-size: 12px;
+    border-left: 3px solid #000;
+    border-right: 3px solid #000;
+    transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    /* Firefox 4 */
+    -webkit-transition: all 0.5s;
+    /* Safari 和 Chrome */
+    -o-transition: all 0.5s;
+    /* Opera */
+  }
+  
+  #rank h5 {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    border-top: 3px solid #000;
+    border-bottom: 3px solid #000;
+    height: 20px;
+    line-height: 20px;
+  }
+  
+  #rank_content {
+    height: 206px;
+    text-align: center;
+  }
+  
+  #rank_list {
+    width: 100px;
+    margin-left: 20px;
+    margin-top: 2px;
+    font-size: 12px;
+  }
+  
+  #ad {
+    height: 20px;
+    width: 250px;
+    position: absolute;
+    bottom: 0px;
+  }
+  
+  .footer {
+    margin-top: 10px;
+    font-size: 12px;
+    text-align: center;
+  }
+  
+  #login {
+    background: #fff;
+    height: 440px;
+    width: 265px;
+    position: absolute;
+    top: 3px;
+    left: 15px;
+    transition: all 0.5s;
+    -moz-transition: all 0.5s;
+    /* Firefox 4 */
+    -webkit-transition: all 0.5s;
+    /* Safari 和 Chrome */
+    -o-transition: all 0.5s;
+    /* Opera */
+  }
+  
+  #logo {
+    width: 60px;
+    height: 60px;
+    margin: 45px auto 60px auto;
+    background: #5598ff;
+  }
+  
+  .login_input {
+    border: 1px solid #000;
+    height: 30px;
+    line-height: 30px;
+    width: 248px;
+  }
+  
+  .login_input_submit {
+    border: 1px solid #000;
+    height: 30px;
+    line-height: 30px;
+    width: 250px;
+  }
+  
+  .input_wrapper {
+    width: 250px;
+    margin: 10px auto;
+  }
+  </style>
+  <script src="https://cdn1.lncld.net/static/js/av-min-1.5.0.js"></script>
 </head>
+
 <body>
-	<h1 class="title">CUG贪吃蛇争霸赛</h1>
-	<div class="canvas_wrapper">
-		<div id="score">得分：<span id="score_num">0</span></div>
-		<canvas id="arcade" height="450px" width="280px" style="border:3px solid #000;border-radius:10px;background:#fff;display:block;margin:3px auto 3px auto;"></canvas>
-		<script type="text/javascript">
-			//可以画界面，但是现在感觉没啥需要画的
-		</script>
-		<canvas id="canvas" height="200px" width="250px" style="border:3px solid #000;background:#fff;display:block;margin:0px auto 0 auto;"></canvas>
-		<div id="control">
-			<div class="control_block up" id="up"></div>
-			<div class="clearfloat">
-				<div class="control_block left" id="left"></div>
-				<div class="control_block right" id="right"></div>
-			</div>
-			<div class="control_block down" id="down"></div>
-		</div>
-		<div id="rank">
-			<h5 id="rank_title"><a href="#">排行榜</a></h5>
-			<div id="rank_content" style="display:none;">
-				<div id="rank_list">
-					<ol>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-						<li></li>
-					</ol>
-				</div>
-				<div id="ad">这是一个广告位，为赞助商提供</div>	
-			</div>
-		</div>
-		<div id="login">
-			<div id="logo">
-				logo
-			</div>
-			<form id="login_form" action="#" method="POST">
-				<div class="input_wrapper"><input name="name" class="login_input" id="name" type="text" size="25" placeholder="你的名字" value=""></div>
-				<div class="input_wrapper"><input name="qq" class="login_input" id="qq" type="tel" size="25" placeholder="你的qq号" value=""></div>
-				<div class="input_wrapper"><input name="go" class="login_input_submit" id="go" type="button" value="进入游戏" style="background:#5598ff;"></div>
-			</form>
-			<div style="font-size:12px; width:235px;margin:100px auto 0 auto">
-				<p>注意：这是一场比赛，请填入真实的信息，在获得奖励以后方便工作人员发放奖励，谢谢！</p>
-			</div>
-		</div>
-	</div>
-	<div class="footer"><a href="#">地大点石团队出品</a></div>
-	
-	<!-- <div id="xycoordinates"></div> -->
-	<script type="application/javascript" src="js/fastclick.js"></script> 
-	<script type="application/javascript">//-------------------------------------------------------------------------------------游戏非核心脚本
-		
-		var login = document.getElementById("login");
-		window.addEventListener('load', function () {
-			FastClick.attach(document.body);
-		}, false);
-		document.getElementById("rank_title").onclick = function(){
-			var rc = document.getElementById("rank_content");
-			if (rc.style.display != "none") {
-				rc.style.display = "none";
-			}
-			else{
-				rc.style.display = "block";
-			}
-		};
-		document.getElementById("go").onclick = function(){
-			var name = document.getElementById("name").value;
-			var qq = document.getElementById("qq").value;
-			if ( qq != "" && name != "" ){
-				login.style.opacity = "0";
-				setTimeout("login.style.zIndex = '-1';",500);
-			}
-			else{
-				alert("请完成表单后开始游戏~");
-			}
-		}
-	</script> 
-	<script type="text/javascript">//-------------------------------------------------------------------------------------游戏核心脚本
-	    var s;
-	    var score;
-		var headX = 15,headY = 15,headL = 10;//snakes 单个块体的边长
-		var nodirection;
-		var direction;
-		var t1; //变量写在这里就可以保证 被清除了
-		var c = document.getElementById('canvas');
-		var head = c.getContext("2d");  //头部
-		head.fillstyle = "#000";
-		/*function cnvs_getCoordinates(e)
-		{
-		x=e.clientX;
-		y=e.clientY;
-		document.getElementById("xycoordinates").innerHTML="Coordinates: (" + x + "," + y + ")";
-		}
-		 
-		function cnvs_clearCoordinates()
-		{
-		document.getElementById("xycoordinates").innerHTML="";
-		}
-		//获取鼠标坐标*/
-		var score_num = document.getElementById("score_num");
-		var up = document.getElementById('up');
-		var right = document.getElementById('right');
-		var down = document.getElementById('down');
-		var left = document.getElementById('left');
-		//获取控制元素
-		function draw(){
-			window.setTimeout(function(){
-				window.clearInterval(t1);
-			},50); 
-			s = new Array();//蛇的身体 数组snake
-			var food = {
-				x:0,
-				y:0
-			};
-			var  x,y,l=10;
-			s.push({
-				x:15,
-				y:15
-			});
-			score_num.innerHTML = 0;
-			//游戏初始化
-			function drawFood(){
-				var mrx = Math.random()*25;
-				var mry = Math.random()*20;
-				food = {
-					x:Math.floor(mrx)*l+l/2,
-					y:Math.floor(mry)*l+l/2
-				};
-				var foodResult = true;
-				for (var i = 0; i < s.length ; i++) {
-					if ( s[i].x == food.x && s[i].y == food.y) {
-						foodResult = false;
-						break;
-					}
-				}
-				if (foodResult){
-					head.beginPath();
-					head.strokeStyle = 'rgba(255,0,0,1)';
-					head.arc(food.x,food.y,3,0,Math.PI*2,true);// 画食物
-					head.stroke();
-				}else{
-					drawFood(); //递归
-				}
-			}//画食物
-			drawFood();
-
-			
-			function clearRect(x,y,a){
-			var b=a/2;
-			head.clearRect (x-b, y-b, a, a);
-			}//清除尾部
-
-			function rect(x,y,a){
-			var b=a/2;
-			head.fillRect (x-b, y-b, a, a);
-			}//画一个单个块体
-
-			rect(headX,headY,headL);//画出初始块体
+  <h1 class="title">CUG贪吃蛇争霸赛</h1>
+  <div class="canvas_wrapper">
+    <div id="score">得分：<span id="score_num">0</span></div>
+    <canvas id="arcade" height="450px" width="280px" style="border:3px solid #000;border-radius:10px;background:#fff;display:block;margin:3px auto 3px auto;"></canvas>
+    <script type="text/javascript">
+    //可以画界面，但是现在感觉没啥需要画的
+    </script>
+    <canvas id="canvas" height="200px" width="250px" style="border:3px solid #000;background:#fff;display:block;margin:0px auto 0 auto;"></canvas>
+    <div id="control">
+      <div class="control_block up" id="up"></div>
+      <div class="clearfloat">
+        <div class="control_block left" id="left"></div>
+        <div class="control_block right" id="right"></div>
+      </div>
+      <div class="control_block down" id="down"></div>
+    </div>
+    <div id="rank">
+      <h5 id="rank_title"><a href="#">排行榜</a></h5>
+      <div id="rank_content" style="display:none;">
+        <div id="rank_list">
+          <ol>
+          </ol>
+        </div>
+        <div id="ad">这是一个广告位，为赞助商提供</div>
+      </div>
+    </div>
+    <div id="login">
+      <div id="logo">
+        logo
+      </div>
+      <form id="login_form" action="#" method="POST">
+        <div class="input_wrapper">
+          <input name="name" class="login_input" id="name" type="text" size="25" placeholder="你的名字" value="">
+        </div>
+        <div class="input_wrapper">
+          <input name="go" class="login_input_submit" id="go" type="button" value="进入游戏" style="background:#5598ff;">
+        </div>
+      </form>
+      <div style="font-size:12px; width:235px;margin:100px auto 0 auto">
+        <p>注意：这是一场比赛，请填入真实的信息，在获得奖励以后方便工作人员发放奖励，谢谢！</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer"><a href="#">地大点石团队出品</a></div>
+  <!-- <div id="xycoordinates"></div> -->
+  <script type="application/javascript" src="js/fastclick.js"></script>
+  <script type="application/javascript">
+  //-------------------------------------------------------------------------------------游戏非核心脚本
 
 
-			function submit(){
+  var username;
+  var APP_ID = 'e2rLuu1INqllK9LDacETyAtk-gzGzoHsz';
+  var APP_KEY = 'pgIsLV4lEp2JQ8riAJbIFnOm';
 
-				//name
-				//qq
-				//score
+  AV.init({
+    appId: APP_ID,
+    appKey: APP_KEY
 
-			}//提交分数
+  });
 
-			document.onkeydown = function (event){
-				
-				var e = event || window.event || arguments.callee.caller.arguments[0];
-				if ((e && e.keyCode == nodirection )|| ( e.keyCode != 38 && e.keyCode != 39 && e.keyCode != 40 && e.keyCode != 37)) { return 0 ;}// 如果输入相反方向则直接跳出
-				window.clearInterval(t1);
-				function go()
-				{	
-					if (s.length-5>0) {
-						score = s.length-5
-					} else{
-						score = 0;
-					}
-					if (e && e.keyCode == 38) {
-						s.unshift({
-							x:s[0].x,
-							y:s[0].y - l
-						});	
-						direction = "38";
-						nodirection = "40";				
-					}
-					if (e && e.keyCode == 39) {
-						s.unshift({
-							x:s[0].x + l,
-							y:s[0].y
-						});	
-						direction = "39";
-						nodirection = "37";
-					}
-					if (e && e.keyCode == 40) {
-						s.unshift({
-							x:s[0].x,
-							y:s[0].y + l
-						});	
-						direction = "40";
-						nodirection = "38";
-					}
-					if (e && e.keyCode == 37) {
-						s.unshift({
-							x:s[0].x - l,
-							y:s[0].y
-						});	
-						direction = "37";
-						nodirection = "39";
-					}
-					
-					if (s.length > 5){
-						if (s[0].x == food.x && s[0].y ==food.y){
-							drawFood();
-							score_num.innerHTML = s.length - 5 ;
-						}
-						else{
-							clearRect(s[s.length - 1].x,s[s.length - 1].y,l);
-							s.pop();
-						}
-					}
-					for (var i = 1; i < s.length; i++) {
-						if(s[i].x ==s[0].x && s[i].y == s[0].y){
-							head.clearRect(0,0,250,200);
-							alert("game over! 你的得分是："+score);
-							submit();
-							draw();
-							nodirection = null;
-							window.clearInterval(t1);
-						}
-					}
-								
-					if (s[0].x<0 || s[0].x>250 || s[0].y<0 ||s[0].y>200){
-						head.clearRect(0,0,250,200);
-						alert("game over! 你的得分是："+score);
-						submit();
-						draw();
-						nodirection = null;
-					}
-					rect(s[0].x,s[0].y,l);
-				}
-				go();
-				t1 = window.setInterval(go,300-s.length);//加速功能
+  var saveData = function(name, score) {
+    var Range = AV.Object.extend('Range');
+    var range = new Range();
+    range.set('name', String(name));
+    range.set('score', String(score));
+    range.save().then(function(data) {
+      console.log('New object created with objectId: ' + range.id);
+    }, function(error) {
+      console.error('Failed to create new object, with error message: ' + range.message);
+    });
+  }
 
+  var getData = function() {
+    document.getElementById('rank_title').innerHTML = "请稍等......";
+    var query = new AV.Query('Range');
 
-			} //键盘事件 上下左右
-		
-			//手机端点击触发移动
-			function move(event){
-					var e = event || window.event || arguments.callee.caller.arguments[0];
-					if ((e == nodirection )|| ( e != 38 && e != 39 && e != 40 && e != 37)) { return 0 ;}// 如果输入相反方向则直接跳出
-					window.clearInterval(t1);
-					function go()
-					{	
-						if (s.length-5>0) {
-							score = s.length-5
-						} else{
-							score = 0;
-						}
-						if (e == 38) {
-							s.unshift({
-								x:s[0].x,
-								y:s[0].y - l
-							});	
-							direction = "38";
-							nodirection = "40";			
-						}
-						if (e == 39) {
-							s.unshift({
-								x:s[0].x + l,
-								y:s[0].y
-							});	
-							direction = "39";
-							nodirection = "37";
-						}
-						if (e == 40) {
-							s.unshift({
-								x:s[0].x,
-								y:s[0].y + l
-							});	
-							direction = "40";
-							nodirection = "38";
-						}
-						if (e == 37) {
-							s.unshift({
-								x:s[0].x - l,
-								y:s[0].y
-							});	
-							direction = "37";
-							nodirection = "39";
-						}
-						if (s.length > 5){
-							if (s[0].x == food.x && s[0].y ==food.y){
-								drawFood();
-								score_num.innerHTML = s.length - 5 ;
-							}
-							else{
-								clearRect(s[s.length - 1].x,s[s.length - 1].y,l);
-								s.pop();
-							}
-						}
-						for (var i = 1; i < s.length; i++) {
-							if(s[i].x ==s[0].x && s[i].y == s[0].y){
-								head.clearRect(0,0,250,200);
-								alert("game over! 你的得分是："+score);
-								submit();
-								draw();
-								nodirection = null;
-								window.clearInterval(t1);
-							}
-						}					
-						if (s[0].x<0 || s[0].x>250 || s[0].y<0 ||s[0].y>200){
-							head.clearRect(0,0,250,200);
-							alert("game over! 你的得分是："+score);
-							submit();
-							draw();
-							nodirection = null;
-						}
-						rect(s[0].x,s[0].y,l);
-					}
-					go();
-					t1 = window.setInterval(go,300-s.length);//加速功能
+    function compare(property) {
+      return function(a, b) {
+        var value1 = a[property];
+        var value2 = b[property];
+        return value2 - value1;
+      }
+    }
 
+    function nameInArr(name, arr) {
+      for (var j = 0, length2 = arr.length; j < length2; j++) {
+        if (arr[j].name == name) {
+          return true;
+        }
+      }
+    }
 
-				} //点击事件 上下左右
+    query.find().then(function(data) {
+      var finalAlluser = [];
+      var allUser = [];
+      var finalStr = "";
+      data.forEach(function(item) {
+        allUser.push({
+          name: item.attributes.name,
+          score: item.attributes.score
+        })
+      });
+      allUser.sort(compare('score'));
+      for (var i = 0, length1 = allUser.length; i < length1; i++) {
+        if (i === 0) {
+          finalAlluser.push(allUser[0]);
+        } else {
+          if (!nameInArr(allUser[i].name, finalAlluser)) {
+            finalAlluser.push(allUser[i]);
+          }
+        }
+      }
+      finalAlluser.forEach(function(item) {
+        finalStr += "<li>" + item.name + ":" + item.score + "</li>";
+      })
+      document.getElementById("rank_title").innerHTML = "排行榜";
+      document.querySelector('#rank_list ol').innerHTML = finalStr;
+    })
+  }
 
-			up.onclick = function(){
-				move(38);
-			};
-			right.onclick =function(){
-				move(39);
-			};
-			down.onclick = function(){
-				move(40);
-			};
-			left.onclick =function(){
-				move(37);
-			};
+  var login = document.getElementById("login");
+  window.addEventListener('load', function() {
+    FastClick.attach(document.body);
+  }, false);
+  document.getElementById("rank_title").onclick = function() {
+    var rc = document.getElementById("rank_content");
+    if (rc.style.display != "none") {
+      rc.style.display = "none";
+    } else {
+      getData();
+      rc.style.display = "block";
+    }
+  };
+  document.getElementById("go").onclick = function() {
+    var name = document.getElementById("name").value;
+    if (name != "") {
+      login.style.opacity = "0";
+      username = name;
+      setTimeout("login.style.zIndex = '-1';", 500);
+    } else {
+      alert("请完成表单后开始游戏~");
+    }
+  }
+  </script>
+  <script type="text/javascript">
+  //-------------------------------------------------------------------------------------游戏核心脚本
+  var s;
+  var score;
+  var headX = 15,
+    headY = 15,
+    headL = 10; //snakes 单个块体的边长
+  var nodirection;
+  var direction;
+  var t1; //变量写在这里就可以保证 被清除了
+  var c = document.getElementById('canvas');
+  var head = c.getContext("2d"); //头部
+  head.fillstyle = "#000";
+  /*function cnvs_getCoordinates(e)
+  {
+  x=e.clientX;
+  y=e.clientY;
+  document.getElementById("xycoordinates").innerHTML="Coordinates: (" + x + "," + y + ")";
+  }
+   
+  function cnvs_clearCoordinates()
+  {
+  document.getElementById("xycoordinates").innerHTML="";
+  }
+  //获取鼠标坐标*/
+  var score_num = document.getElementById("score_num");
+  var up = document.getElementById('up');
+  var right = document.getElementById('right');
+  var down = document.getElementById('down');
+  var left = document.getElementById('left');
+  //获取控制元素
+  function draw() {
+    window.setTimeout(function() {
+      window.clearInterval(t1);
+    }, 50);
+    s = new Array(); //蛇的身体 数组snake
+    var food = {
+      x: 0,
+      y: 0
+    };
+    var x, y, l = 10;
+    s.push({
+      x: 15,
+      y: 15
+    });
+    score_num.innerHTML = 0;
+    //游戏初始化
+    function drawFood() {
+      var mrx = Math.random() * 25;
+      var mry = Math.random() * 20;
+      food = {
+        x: Math.floor(mrx) * l + l / 2,
+        y: Math.floor(mry) * l + l / 2
+      };
+      var foodResult = true;
+      for (var i = 0; i < s.length; i++) {
+        if (s[i].x == food.x && s[i].y == food.y) {
+          foodResult = false;
+          break;
 
-		}
+        }
+      }
+      if (foodResult) {
+        head.beginPath();
+        head.strokeStyle = 'rgba(255,0,0,1)';
+        head.arc(food.x, food.y, 3, 0, Math.PI * 2, true); // 画食物
+        head.stroke();
+      } else {
+        drawFood(); //递归
+      }
+    } //画食物
+    drawFood();
 
 
-		draw();//开始游戏
-	</script>
+    function clearRect(x, y, a) {
+      var b = a / 2;
+      head.clearRect(x - b, y - b, a, a);
+    } //清除尾部
+
+    function rect(x, y, a) {
+      var b = a / 2;
+      head.fillRect(x - b, y - b, a, a);
+    } //画一个单个块体
+
+    rect(headX, headY, headL); //画出初始块体
+
+
+    document.onkeydown = function(event) {
+
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if ((e && e.keyCode == nodirection) || (e.keyCode != 38 && e.keyCode != 39 && e.keyCode != 40 && e.keyCode != 37)) {
+          return 0;
+        } // 如果输入相反方向则直接跳出
+        window.clearInterval(t1);
+
+        function go() {
+          if (s.length - 5 > 0) {
+            score = s.length - 5
+          } else {
+            score = 0;
+          }
+          if (e && e.keyCode == 38) {
+            s.unshift({
+              x: s[0].x,
+              y: s[0].y - l
+            });
+            direction = "38";
+            nodirection = "40";
+          }
+          if (e && e.keyCode == 39) {
+            s.unshift({
+              x: s[0].x + l,
+              y: s[0].y
+            });
+            direction = "39";
+            nodirection = "37";
+          }
+          if (e && e.keyCode == 40) {
+            s.unshift({
+              x: s[0].x,
+              y: s[0].y + l
+            });
+            direction = "40";
+            nodirection = "38";
+          }
+          if (e && e.keyCode == 37) {
+            s.unshift({
+              x: s[0].x - l,
+              y: s[0].y
+            });
+            direction = "37";
+            nodirection = "39";
+          }
+
+          if (s.length > 5) {
+            if (s[0].x == food.x && s[0].y == food.y) {
+              drawFood();
+              score_num.innerHTML = s.length - 5;
+            } else {
+              clearRect(s[s.length - 1].x, s[s.length - 1].y, l);
+              s.pop();
+            }
+          }
+          for (var i = 1; i < s.length; i++) {
+            if (s[i].x == s[0].x && s[i].y == s[0].y) {
+              head.clearRect(0, 0, 250, 200);
+              saveData(username, score);
+              alert("game over! 你的得分是：" + score);
+              draw();
+              nodirection = null;
+              window.clearInterval(t1);
+            }
+          }
+
+          if (s[0].x < 0 || s[0].x > 250 || s[0].y < 0 || s[0].y > 200) {
+            head.clearRect(0, 0, 250, 200);
+            saveData(username, score);
+            alert("game over! 你的得分是：" + score);
+            draw();
+            nodirection = null;
+          }
+          rect(s[0].x, s[0].y, l);
+        }
+        go();
+        t1 = window.setInterval(go, 300 - s.length); //加速功能
+
+      } //键盘事件 上下左右
+
+    //手机端点击触发移动
+    function move(event) {
+      var e = event || window.event || arguments.callee.caller.arguments[0];
+      if ((e == nodirection) || (e != 38 && e != 39 && e != 40 && e != 37)) {
+        return 0;
+      } // 如果输入相反方向则直接跳出
+      window.clearInterval(t1);
+
+      function go() {
+        if (s.length - 5 > 0) {
+          score = s.length - 5
+        } else {
+          score = 0;
+        }
+        if (e == 38) {
+          s.unshift({
+            x: s[0].x,
+            y: s[0].y - l
+          });
+          direction = "38";
+          nodirection = "40";
+        }
+        if (e == 39) {
+          s.unshift({
+            x: s[0].x + l,
+            y: s[0].y
+          });
+          direction = "39";
+          nodirection = "37";
+        }
+        if (e == 40) {
+          s.unshift({
+            x: s[0].x,
+            y: s[0].y + l
+          });
+          direction = "40";
+          nodirection = "38";
+        }
+        if (e == 37) {
+          s.unshift({
+            x: s[0].x - l,
+            y: s[0].y
+          });
+          direction = "37";
+          nodirection = "39";
+        }
+        if (s.length > 5) {
+          if (s[0].x == food.x && s[0].y == food.y) {
+            drawFood();
+            score_num.innerHTML = s.length - 5;
+          } else {
+            clearRect(s[s.length - 1].x, s[s.length - 1].y, l);
+            s.pop();
+          }
+        }
+        for (var i = 1; i < s.length; i++) {
+          if (s[i].x == s[0].x && s[i].y == s[0].y) {
+            head.clearRect(0, 0, 250, 200);
+            saveData(username, score);
+            alert("game over! 你的得分是：" + score);
+            draw();
+            nodirection = null;
+            window.clearInterval(t1);
+          }
+        }
+        if (s[0].x < 0 || s[0].x > 250 || s[0].y < 0 || s[0].y > 200) {
+          head.clearRect(0, 0, 250, 200);
+          saveData(username, score);
+          alert("game over! 你的得分是：" + score);
+          draw();
+          nodirection = null;
+        }
+        rect(s[0].x, s[0].y, l);
+      }
+      go();
+      t1 = window.setInterval(go, 300 - s.length); //加速功能
+
+
+    } //点击事件 上下左右
+
+    up.onclick = function() {
+      move(38);
+    };
+    right.onclick = function() {
+      move(39);
+    };
+    down.onclick = function() {
+      move(40);
+    };
+    left.onclick = function() {
+      move(37);
+    };
+
+  }
+
+
+  draw(); //开始游戏
+  </script>
 </body>
+
 </html>
