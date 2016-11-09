@@ -321,6 +321,7 @@
         } else {
           if (!nameInArr(allUser[i].name, finalAlluser)) {
             finalAlluser.push(allUser[i]);
+            if (finalAlluser.length == 10) break;
           }
         }
       }
